@@ -80,7 +80,7 @@ CommandService->EventStore: UpdateTicket event
 CommandService00>Web: Async success response
 Web00>User: Ticket updated success response
 EventStore->EventHandler: New event
-EventHandler->QueryStore: Update materalised view\nfor updated Ticket -->
+EventHandler->QueryStore: Update materalised view\nfor updated Ticket
 
 --->
 
