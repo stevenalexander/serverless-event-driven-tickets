@@ -1,0 +1,43 @@
+service: lambda # NOTE: update this with your service name
+
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+
+functions:
+  GetTickets:
+    handler: handler.getTickets
+    events:
+      - http:
+          path: tickets
+          method: get
+
+  GetTicket:
+    handler: handler.getTicket
+    events:
+      - http:
+          path: tickets/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+  CreateTicket:
+    handler: handler.createTicket
+    events:
+      - http:
+          path: tickets
+          method: post
+
+  UpdateTicket:
+    handler: handler.updateTicket
+    events:
+      - http:
+          path: tickets/{id}
+          method: put
+          request:
+            parameters:
+              paths:
+                id: true
