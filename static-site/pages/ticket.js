@@ -18,7 +18,7 @@ const Ticket = props => (
 
 Ticket.getInitialProps = async ({ query }) => {
   const id = query.id
-  const res = await fetch(`http://localhost:3001/tickets/${id}`);
+  const res = await fetch(`${process.env.apiUrl}/tickets/${id}`);
   const data = await res.json();
 
   console.log(`Show data fetched: ${JSON.stringify(data)}`);
