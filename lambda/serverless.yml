@@ -2,6 +2,12 @@ service: lambda # NOTE: update this with your service name
 
 # frameworkVersion: "=X.X.X"
 
+# exclude files added by installing offline plugin
+package:
+  exclude:
+    - node_modules/**
+    - package-lock.json
+
 provider:
   name: aws
   runtime: nodejs10.x
@@ -41,3 +47,6 @@ functions:
             parameters:
               paths:
                 id: true
+
+plugins:
+  - serverless-offline

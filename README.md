@@ -16,6 +16,11 @@ Components
 ## Run locally
 
 ```
+# api
+cd lambda
+npm install
+serverless offline start --port 3001
+
 # web
 cd static-site
 npm install
