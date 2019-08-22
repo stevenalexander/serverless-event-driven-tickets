@@ -1,47 +1,53 @@
-service: lambda # NOTE: update this with your service name
+service: serverless-event-driven-tickets # NOTE: update this with your service name
 
 # frameworkVersion: "=X.X.X"
-
-# exclude files added by installing offline plugin
-package:
-  exclude:
-    - node_modules/**
-    - package-lock.json
 
 provider:
   name: aws
   runtime: nodejs10.x
 
 functions:
-  GetTickets:
-    handler: handler.getTickets
+  # Web functions
+  Web:
+    handler: handler-web.handler
     events:
       - http:
-          path: tickets
+          path: /
+          method: ANY
+    environment:
+      API_GATEWAY_RESOURCE_PATH: "/" # this needs to be set if web is not under root path, e.g. "/dev" if API Gateway uses stage dev
+      API_URL: "http://localhost:3000/api" # should be updated with API Gateway URL, e.g. "https://dsdsadasd.execute-api.us-east-1.amazonaws.com/dev/api"
+
+  # API functions
+  GetTickets:
+    handler: handler-api.getTickets
+    events:
+      - http:
+          path: api/tickets
           method: get
 
   GetTicket:
-    handler: handler.getTicket
+    handler: handler-api.getTicket
     events:
       - http:
-          path: tickets/{id}
+          path: api/tickets/{id}
           method: get
           request:
             parameters:
               paths:
                 id: true
   CreateTicket:
-    handler: handler.createTicket
+    handler: handler-api.createTicket
     events:
       - http:
-          path: tickets
+          path: api/tickets
           method: post
 
   UpdateTicket:
-    handler: handler.updateTicket
+    handler: handler-api.updateTicket
     events:
       - http:
-          path: tickets/{id}
+          path: api/tickets/{id}
           method: put
           request:
             parameters:

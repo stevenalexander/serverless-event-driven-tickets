@@ -1,0 +1,66 @@
+extends layout
+
+block content
+  h1 Tickets
+
+  if tickets
+    div.row
+      table.table.table-striped
+        thead
+          tr
+            th ID
+            th Description
+            th Status
+            th Submitted by
+            th Created date
+            th Modified date
+        tbody
+          each t in tickets
+              tr
+                td
+                  a(href=`?id=${t.id}`)= t.id
+                td= t.description
+                td= t.status
+                td= t.submittedBy
+                td= t.createdDate
+                td= t.modifiedDate
+
+  if ticket
+    div.row
+      h2= `Ticket ${ticket.id}`
+      form(action=`/?id=${ticket.id}`, method='post')
+        div.form-group
+          label.control-label Description
+          input#description.form-control(name='description')
+        div.form-group
+          label.control-label Details
+          textarea#details.form-control(name='details', rows='3')
+        div.form-group
+          label.control-label Status
+          select#status.form-control
+            option Submitted
+            option Active
+            option Closed
+        div.form-group
+          label.control-label Submitted by
+          p#submittedBy.form-control-static= ticket.submittedBy
+        div.form-group
+          label.control-label Created date
+          p#createdDate.form-control-static= ticket.createdDate
+        div.form-group
+          label.control-label Modified date
+          p#modifiedDate.form-control-static= ticket.modifiedDate
+        div.form-group
+          button.btn.btn-default(type='submit') Submit
+  else
+    div.row
+      h2 New Ticket
+      form(action='/', method='post')
+        div.form-group
+          label(for='description') Description
+          input#description.form-control(name='description')
+        div.form-group
+          label(for='dob') Date of birth
+          textarea#details.form-control(name='details', rows='3')
+        div.form-group
+          button.btn.btn-default(type='submit') Submit
