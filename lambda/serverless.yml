@@ -19,6 +19,14 @@ provider:
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_EVENTS}"
 
 functions:
+  # Web functions
+  Web:
+    handler: web.handler
+    events:
+      - http:
+          path: /
+          method: get
+
   # API functions
   GetTickets:
     handler: api-get-tickets.handler
