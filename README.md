@@ -5,7 +5,7 @@ WORK IN PROGRESS
 Example solution using serverless hosting to submit and view tickets.
 
 Components
-* Lambdas created using Serverless Framework (including ExpressJS app for web)
+* Lambdas created using Serverless Framework
 
 ## Requires
 
@@ -82,10 +82,9 @@ EventHandler->QueryStore: Update materalised view\nfor updated Ticket
 ## Links
 
 * [Serverless Framework](https://github.com/serverless/serverless#readme)
+* [Example - aws-node-rest-api-with-dynamodb](https://github.com/serverless/examples/tree/master/aws-node-rest-api-with-dynamodb)
+* [Blog - How To Create a Serverless Node.js App with DynamoDB For The First Time](https://medium.com/statuscode/serverless-ice-cream-or-create-your-serverless-node-js-micro-service-with-a-database-17a6946251e0) - outdated serverless config but useful context
 
 ## TODO
 
 * [Use AWS layers to handle node_modules rather than packaging them](https://medium.com/the-apps-team/how-to-add-nodejs-library-dependencies-in-a-aws-lambda-layer-with-serverless-framework-d774cb867197)
-* Set API URL by config not static in serverless.yml
-* Split Web/API pattern is based on traditional web hosted N-tier architecture and is not necessary or efficient for serverless solutions, it would be more cost efficient to simplify the web layer to call the data store directly saving executions and network time
-* Related to above, use of ExpressJS and templates Pug is based on familiarity of existing web frameworks, could be simplified avoiding the need for complex node packages being included

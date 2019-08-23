@@ -1,22 +1,34 @@
-service: serverless-event-driven-tickets # NOTE: update this with your service name
+service: tickets-lambdas # AWS names API Gateway based on service name and does not like long names
 
 # frameworkVersion: "=X.X.X"
 
 provider:
   name: aws
   runtime: nodejs10.x
+  environment:
+    DYNAMODB_TABLE_EVENTS: ${self:service}-${opt:stage, self:provider.stage}-events
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_EVENTS}"
 
 functions:
   # API functions
   GetTickets:
-    handler: handler-api.getTickets
+    handler: api-get-tickets.handler
     events:
       - http:
           path: api/tickets
           method: get
 
   GetTicket:
-    handler: handler-api.getTicket
+    handler: api-get-ticket.handler
     events:
       - http:
           path: api/tickets/{id}
@@ -26,14 +38,14 @@ functions:
               paths:
                 id: true
   CreateTicket:
-    handler: handler-api.createTicket
+    handler: api-create-ticket.handler
     events:
       - http:
           path: api/tickets
           method: post
 
   UpdateTicket:
-    handler: handler-api.updateTicket
+    handler: api-update-ticket.handler
     events:
       - http:
           path: api/tickets/{id}
@@ -42,6 +54,25 @@ functions:
             parameters:
               paths:
                 id: true
+
+resources:
+  Resources:
+    EventsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE_EVENTS}
 
 plugins:
   - serverless-offline
