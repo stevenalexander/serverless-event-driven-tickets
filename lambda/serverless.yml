@@ -7,17 +7,6 @@ provider:
   runtime: nodejs10.x
 
 functions:
-  # Web functions
-  Web:
-    handler: handler-web.handler
-    events:
-      - http:
-          path: /
-          method: ANY
-    environment:
-      API_GATEWAY_RESOURCE_PATH: "/" # this needs to be set if web is not under root path, e.g. "/dev" if API Gateway uses stage dev
-      API_URL: "http://localhost:3000/api" # should be updated with API Gateway URL, e.g. "https://dsdsadasd.execute-api.us-east-1.amazonaws.com/dev/api"
-
   # API functions
   GetTickets:
     handler: handler-api.getTickets
