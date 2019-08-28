@@ -6,6 +6,7 @@ Example solution using serverless hosting to submit and view tickets.
 
 Components
 * Lambdas created using Serverless Framework
+* AWS DynamoDB for storage
 
 ## Requires
 
