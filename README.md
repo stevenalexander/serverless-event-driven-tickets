@@ -1,5 +1,7 @@
 # Serverless event driven tickets
 
+[![BuildStatus](https://github.com/stevenalexander/serverless-event-driven-tickets/workflows/Node%20CI/badge.svg)](https://github.com/stevenalexander/serverless-event-driven-tickets/actions)
+
 WORK IN PROGRESS
 
 Example solution using serverless hosting to submit and view tickets.
