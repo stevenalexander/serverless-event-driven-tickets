@@ -1,17 +1,17 @@
-'use strict';
+'use strict'
 
 module.exports.handler = (event, context, callback) => {
   const response = {
     statusCode: 200,
     headers: {
-      'Content-Type': 'text/html',
+      'Content-Type': 'text/html'
     },
-    body: getHtmlLayout('Tickets', 'Tickets'),
-  };
-  callback(null, response);
-};
+    body: getHtmlLayout('Tickets', 'Tickets')
+  }
+  callback(null, response)
+}
 
-function getHtmlLayout(title, header) {
+function getHtmlLayout (title, header) {
   // HTML template literal for layout based on Bootstrap 4
   return `
   <!doctype html>

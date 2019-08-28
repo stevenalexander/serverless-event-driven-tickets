@@ -1,31 +1,31 @@
-'use strict';
+'use strict'
 
-const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const AWS = require('aws-sdk') // eslint-disable-line import/no-extraneous-dependencies
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamoDb = new AWS.DynamoDB.DocumentClient()
 const params = {
-  TableName: process.env.DYNAMODB_TABLE_EVENTS,
-};
+  TableName: process.env.DYNAMODB_TABLE_EVENTS
+}
 
 module.exports.handler = (event, context, callback) => {
   // fetch all tickets from the database
   dynamoDb.scan(params, (error, result) => {
     // handle potential errors
     if (error) {
-      console.error(error);
+      console.error(error)
       callback(null, {
         statusCode: error.statusCode || 501,
         headers: { 'Content-Type': 'text/plain' },
-        body: 'Couldn\'t fetch the tickets.',
-      });
-      return;
+        body: 'Couldn\'t fetch the tickets.'
+      })
+      return
     }
 
     // create a response
     const response = {
       statusCode: 200,
-      body: JSON.stringify(result.Items),
-    };
-    callback(null, response);
-  });
-};
+      body: JSON.stringify(result.Items)
+    }
+    callback(null, response)
+  })
+}
