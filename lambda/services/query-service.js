@@ -5,13 +5,13 @@ const params = {
   TableName: process.env.DYNAMODB_TABLE_EVENTS
 }
 
-module.exports.getTickets = (callback) => {
-  dynamoDb.scan(params, (error, result) => {
-    if (error) {
-      callback(error)
-      return
-    }
+module.exports.getTickets = () => {
+  return new Promise(
+    (resolve, reject) => {
+      dynamoDb.scan(params, (error, result) => {
+        if (error) reject(error)
 
-    callback(null, result.Items)
-  })
+        resolve(result.Items)
+      })
+    })
 }

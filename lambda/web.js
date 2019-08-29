@@ -1,24 +1,22 @@
 const queryService = require('./services/query-service')
 
-module.exports.handler = (event, context, callback) => {
-  queryService.getTickets(function (error, result) {
-    if (error) {
-      callbackHtmlResponse(callback, 500, getHtmlError(error))
-      return
-    }
-    callbackHtmlResponse(callback, 200, getHtmlTickets(result))
-  })
+module.exports.handler = async (event, context) => {
+  try {
+    const tickets = await queryService.getTickets()
+    return getHtmlResponse(200, getHtmlTickets(tickets))
+  } catch (error) {
+    return getHtmlResponse(500, getHtmlError(error))
+  }
 }
 
-function callbackHtmlResponse(callback, statusCode, htmlString) {
-  const response = {
+function getHtmlResponse (statusCode, htmlString) {
+  return {
     statusCode: statusCode,
     headers: {
       'Content-Type': 'text/html'
     },
     body: htmlString
   }
-  callback(null, response)
 }
 
 function getHtmlLayout (title, header, content) {
