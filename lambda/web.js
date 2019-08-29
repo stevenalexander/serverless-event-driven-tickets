@@ -1,17 +1,27 @@
-'use strict'
+const queryService = require('./services/query-service')
 
 module.exports.handler = (event, context, callback) => {
+  queryService.getTickets(function (error, result) {
+    if (error) {
+      callbackHtmlResponse(callback, 500, getHtmlError(error))
+      return
+    }
+    callbackHtmlResponse(callback, 200, getHtmlTickets(result))
+  })
+}
+
+function callbackHtmlResponse(callback, statusCode, htmlString) {
   const response = {
-    statusCode: 200,
+    statusCode: statusCode,
     headers: {
       'Content-Type': 'text/html'
     },
-    body: getHtmlLayout('Tickets', 'Tickets')
+    body: htmlString
   }
   callback(null, response)
 }
 
-function getHtmlLayout (title, header) {
+function getHtmlLayout (title, header, content) {
   // HTML template literal for layout based on Bootstrap 4
   return `
   <!doctype html>
@@ -25,136 +35,7 @@ function getHtmlLayout (title, header) {
     <body>
       <div class="container">
         <h1>${header}</h1>
-        <p class="lead">Serverless ticketing example.</p>
-
-        <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Header</th>
-              <th>Header</th>
-              <th>Header</th>
-              <th>Header</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1,001</td>
-              <td>Lorem</td>
-              <td>ipsum</td>
-              <td>dolor</td>
-              <td>sit</td>
-            </tr>
-            <tr>
-              <td>1,002</td>
-              <td>amet</td>
-              <td>consectetur</td>
-              <td>adipiscing</td>
-              <td>elit</td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>Integer</td>
-              <td>nec</td>
-              <td>odio</td>
-              <td>Praesent</td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>libero</td>
-              <td>Sed</td>
-              <td>cursus</td>
-              <td>ante</td>
-            </tr>
-            <tr>
-              <td>1,004</td>
-              <td>dapibus</td>
-              <td>diam</td>
-              <td>Sed</td>
-              <td>nisi</td>
-            </tr>
-            <tr>
-              <td>1,005</td>
-              <td>Nulla</td>
-              <td>quis</td>
-              <td>sem</td>
-              <td>at</td>
-            </tr>
-            <tr>
-              <td>1,006</td>
-              <td>nibh</td>
-              <td>elementum</td>
-              <td>imperdiet</td>
-              <td>Duis</td>
-            </tr>
-            <tr>
-              <td>1,007</td>
-              <td>sagittis</td>
-              <td>ipsum</td>
-              <td>Praesent</td>
-              <td>mauris</td>
-            </tr>
-            <tr>
-              <td>1,008</td>
-              <td>Fusce</td>
-              <td>nec</td>
-              <td>tellus</td>
-              <td>sed</td>
-            </tr>
-            <tr>
-              <td>1,009</td>
-              <td>augue</td>
-              <td>semper</td>
-              <td>porta</td>
-              <td>Mauris</td>
-            </tr>
-            <tr>
-              <td>1,010</td>
-              <td>massa</td>
-              <td>Vestibulum</td>
-              <td>lacinia</td>
-              <td>arcu</td>
-            </tr>
-            <tr>
-              <td>1,011</td>
-              <td>eget</td>
-              <td>nulla</td>
-              <td>Class</td>
-              <td>aptent</td>
-            </tr>
-            <tr>
-              <td>1,012</td>
-              <td>taciti</td>
-              <td>sociosqu</td>
-              <td>ad</td>
-              <td>litora</td>
-            </tr>
-            <tr>
-              <td>1,013</td>
-              <td>torquent</td>
-              <td>per</td>
-              <td>conubia</td>
-              <td>nostra</td>
-            </tr>
-            <tr>
-              <td>1,014</td>
-              <td>per</td>
-              <td>inceptos</td>
-              <td>himenaeos</td>
-              <td>Curabitur</td>
-            </tr>
-            <tr>
-              <td>1,015</td>
-              <td>sodales</td>
-              <td>ligula</td>
-              <td>in</td>
-              <td>libero</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
+        ${content}
       </div>
 
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -162,4 +43,47 @@ function getHtmlLayout (title, header) {
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
   </html>`
+}
+
+function getHtmlError (error) {
+  const content = `
+    <p class="lead">An error has occurred.</p>
+    <pre>
+      <code>
+        ${JSON.stringify(error, null, 2)}
+      </code>
+    </pre>
+  `
+
+  getHtmlLayout('Tickets - Error', 'Error', content)
+}
+
+function getHtmlTickets (tickets) {
+  const content = `
+    <p class="lead">Serverless ticketing example.</p>
+
+    <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>text</th>
+          <th>checked</th>
+          <th>createdAt</th>
+          <th>updatedAt</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${tickets ? tickets.map(t => `
+          <tr>
+            <td>${t.text}</td>
+            <td>${t.checked}</td>
+            <td>${(new Date(t.createdAt)).toLocaleString('en-GB', { timeZone: 'UTC' })}</td>
+            <td>${(new Date(t.updatedAt)).toLocaleString('en-GB', { timeZone: 'UTC' })}</td>
+          </tr>`).join('') : ''}
+      </tbody>
+    </table>
+  </div>
+  `
+
+  return getHtmlLayout('Tickets', 'Tickets', content)
 }
