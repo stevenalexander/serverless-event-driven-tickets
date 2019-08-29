@@ -1,31 +1,17 @@
-'use strict'
+const queryService = require('./services/query-service')
 
-const AWS = require('aws-sdk') // eslint-disable-line import/no-extraneous-dependencies
-
-const dynamoDb = new AWS.DynamoDB.DocumentClient()
-const params = {
-  TableName: process.env.DYNAMODB_TABLE_EVENTS
-}
-
-module.exports.handler = (event, context, callback) => {
-  // fetch all tickets from the database
-  dynamoDb.scan(params, (error, result) => {
-    // handle potential errors
-    if (error) {
-      console.error(error)
-      callback(null, {
-        statusCode: error.statusCode || 501,
-        headers: { 'Content-Type': 'text/plain' },
-        body: 'Couldn\'t fetch the tickets.'
-      })
-      return
-    }
-
-    // create a response
-    const response = {
+module.exports.handler = async () => {
+  try {
+    const tickets = await queryService.getTickets()
+    return {
       statusCode: 200,
-      body: JSON.stringify(result.Items)
+      body: JSON.stringify(tickets)
     }
-    callback(null, response)
-  })
+  } catch (error) {
+    return {
+      statusCode: error.statusCode || 501,
+      headers: { 'Content-Type': 'text/plain' },
+      body: 'Couldn\'t fetch the tickets.'
+    }
+  }
 }
