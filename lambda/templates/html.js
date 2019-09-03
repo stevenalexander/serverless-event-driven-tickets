@@ -1,15 +1,4 @@
-const queryService = require('./services/query-service')
-
-module.exports.handler = async (event, context) => {
-  try {
-    const tickets = await queryService.getTickets()
-    return getHtmlResponse(200, getHtmlTickets(tickets))
-  } catch (error) {
-    return getHtmlResponse(500, getHtmlError(error))
-  }
-}
-
-function getHtmlResponse (statusCode, htmlString) {
+module.exports.getHtmlResponse = function (statusCode, htmlString) {
   return {
     statusCode: statusCode,
     headers: {
@@ -19,7 +8,16 @@ function getHtmlResponse (statusCode, htmlString) {
   }
 }
 
-function getHtmlLayout (title, header, content) {
+module.exports.getHtmlRedirectResponse = function (redirectUrl) {
+  return {
+    statusCode: 303,
+    headers: {
+      'Location': redirectUrl
+    }
+  }
+}
+
+module.exports.getHtmlLayout = function (title, header, content) {
   // HTML template literal for layout based on Bootstrap 4
   return `
   <!doctype html>
@@ -43,7 +41,7 @@ function getHtmlLayout (title, header, content) {
   </html>`
 }
 
-function getHtmlError (error) {
+module.exports.getHtmlError = function (error) {
   const content = `
     <p class="lead">An error has occurred.</p>
     <pre>
@@ -53,35 +51,45 @@ function getHtmlError (error) {
     </pre>
   `
 
-  getHtmlLayout('Tickets - Error', 'Error', content)
+  this.getHtmlLayout('Tickets - Error', 'Error', content)
 }
 
-function getHtmlTickets (tickets) {
+module.exports.getHtmlTickets = function (tickets) {
   const content = `
     <p class="lead">Serverless ticketing example.</p>
 
     <div class="table-responsive">
-    <table class="table table-striped table-sm">
-      <thead>
-        <tr>
-          <th>text</th>
-          <th>checked</th>
-          <th>createdAt</th>
-          <th>updatedAt</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${tickets ? tickets.map(t => `
+      <table class="table table-striped table-sm">
+        <thead>
           <tr>
-            <td>${t.text}</td>
-            <td>${t.checked}</td>
-            <td>${(new Date(t.createdAt)).toLocaleString('en-GB', { timeZone: 'UTC' })}</td>
-            <td>${(new Date(t.updatedAt)).toLocaleString('en-GB', { timeZone: 'UTC' })}</td>
-          </tr>`).join('') : ''}
-      </tbody>
-    </table>
-  </div>
+            <th>text</th>
+            <th>checked</th>
+            <th>createdAt</th>
+            <th>updatedAt</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tickets ? tickets.map(t => `
+            <tr>
+              <td>${t.text}</td>
+              <td>${t.checked}</td>
+              <td>${(new Date(t.createdAt)).toLocaleString('en-GB', { timeZone: 'UTC' })}</td>
+              <td>${(new Date(t.updatedAt)).toLocaleString('en-GB', { timeZone: 'UTC' })}</td>
+            </tr>`).join('') : ''}
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <form method="POST" action="">
+        <div class="form-group">
+          <label for="text">Text</label>
+          <input type="text" class="form-control" id="text" name="text" placeholder="Enter text">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
   `
 
-  return getHtmlLayout('Tickets', 'Tickets', content)
+  return this.getHtmlLayout('Tickets', 'Tickets', content)
 }

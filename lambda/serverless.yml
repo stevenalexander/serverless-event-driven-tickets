@@ -20,12 +20,19 @@ provider:
 
 functions:
   # Web functions
-  Web:
-    handler: web.handler
+  WebGetTickets:
+    handler: web-get-tickets.handler
     events:
       - http:
           path: /
           method: get
+
+  WebCreateTicket:
+    handler: web-create-tickets.handler
+    events:
+      - http:
+          path: /
+          method: post
 
   # API functions
   GetTickets:
