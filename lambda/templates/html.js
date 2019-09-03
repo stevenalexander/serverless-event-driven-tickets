@@ -51,7 +51,7 @@ module.exports.getHtmlError = function (error) {
     </pre>
   `
 
-  this.getHtmlLayout('Tickets - Error', 'Error', content)
+  return this.getHtmlLayout('Tickets - Error', 'Error', content)
 }
 
 module.exports.getHtmlTickets = function (tickets) {

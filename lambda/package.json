@@ -4,11 +4,12 @@
   "description": "Lambda functions for a serverless ticketing example",
   "main": "api-get-ticket.js",
   "scripts": {
-    "test": "standard"
+    "test": "standard && mocha test/unit/**/*"
   },
   "author": "Steven Alexander",
   "license": "MIT",
   "devDependencies": {
+    "mocha": "^6.2.0",
     "serverless": "^1.50.0",
     "serverless-offline": "^5.10.1",
     "standard": "^14.0.2"
