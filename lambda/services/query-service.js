@@ -4,10 +4,9 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient()
 const ticketsTableName = process.env.DYNAMODB_TABLE_EVENTS
 
 module.exports.getTickets = () => {
-  let params = { TableName: ticketsTableName }
-
   return new Promise(
     (resolve, reject) => {
+      const params = { TableName: ticketsTableName }
       dynamoDb.scan(params, (error, result) => {
         if (error) reject(error)
         resolve(result.Items)
@@ -16,10 +15,9 @@ module.exports.getTickets = () => {
 }
 
 module.exports.getTicket = (id) => {
-  let params = { TableName: ticketsTableName, Key: { id: id } }
-
   return new Promise(
     (resolve, reject) => {
+      const params = { TableName: ticketsTableName, Key: { id: id } }
       dynamoDb.get(params, (error, result) => {
         if (error) reject(error)
         resolve(result.Item)

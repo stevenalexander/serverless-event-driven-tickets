@@ -1,59 +1,28 @@
-'use strict'
+const commandService = require('./services/command-service')
 
-const AWS = require('aws-sdk') // eslint-disable-line import/no-extraneous-dependencies
-
-const dynamoDb = new AWS.DynamoDB.DocumentClient()
-
-module.exports.handler = (event, context, callback) => {
-  const timestamp = new Date().getTime()
-  const data = JSON.parse(event.body)
-
-  // validation
-  if (typeof data.text !== 'string' || typeof data.checked !== 'boolean') {
-    console.error('Validation Failed')
-    callback(null, {
-      statusCode: 400,
-      headers: { 'Content-Type': 'text/plain' },
-      body: 'Couldn\'t update the ticket item.'
-    })
-    return
-  }
-
-  const params = {
-    TableName: process.env.DYNAMODB_TABLE_EVENTS,
-    Key: {
-      id: event.pathParameters.id
-    },
-    ExpressionAttributeNames: {
-      '#ticket_text': 'text'
-    },
-    ExpressionAttributeValues: {
-      ':text': data.text,
-      ':checked': data.checked,
-      ':updatedAt': timestamp
-    },
-    UpdateExpression: 'SET #ticket_text = :text, checked = :checked, updatedAt = :updatedAt',
-    ReturnValues: 'ALL_NEW'
-  }
-
-  // update the ticket in the database
-  dynamoDb.update(params, (error, result) => {
-    // handle potential errors
-    if (error) {
-      console.error(error)
-      callback(null, {
-        statusCode: error.statusCode || 501,
+module.exports.handler = async (event) => {
+  try {
+    const data = JSON.parse(event.body)
+    if (typeof data.text !== 'string' || typeof data.checked !== 'boolean') {
+      console.error('Validation Failed')
+      return {
+        statusCode: 400,
         headers: { 'Content-Type': 'text/plain' },
-        body: 'Couldn\'t fetch the ticket item.'
-      })
-      return
+        body: 'Couldn\'t update the ticket.'
+      }
     }
-
-    // create a response
-    const response = {
+    data.id = event.pathParameters.id
+    console.log(JSON.stringify(data))
+    const ticket = await commandService.updateTicket(data)
+    return {
       statusCode: 200,
-      body: JSON.stringify(result.Attributes)
+      body: JSON.stringify(ticket)
     }
-    callback(null, response)
-  })
+  } catch (error) {
+    return {
+      statusCode: error.statusCode || 501,
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(error)
+    }
+  }
 }
