@@ -6,7 +6,7 @@ module.exports.handler = async (event, context) => {
   try {
     const data = querystring.parse(event.body)
     if (typeof data.text !== 'string') {
-      return getHtmlResponse(400, html.getHtmlError(new Error('Validation error, couldn\'t create the ticket.')))
+      return html.getHtmlResponse(400, html.getHtmlError(new Error('Validation error, couldn\'t create the ticket.')))
     }
 
     await commandService.createTicket(data)

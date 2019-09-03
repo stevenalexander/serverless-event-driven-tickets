@@ -12,7 +12,7 @@ module.exports.getHtmlRedirectResponse = function (redirectUrl) {
   return {
     statusCode: 303,
     headers: {
-      'Location': redirectUrl
+      Location: redirectUrl
     }
   }
 }
