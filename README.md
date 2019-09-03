@@ -1,6 +1,7 @@
 # Serverless event driven tickets
 
 [![BuildStatus](https://github.com/stevenalexander/serverless-event-driven-tickets/workflows/Node%20CI/badge.svg)](https://github.com/stevenalexander/serverless-event-driven-tickets/actions)
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 WORK IN PROGRESS
 
