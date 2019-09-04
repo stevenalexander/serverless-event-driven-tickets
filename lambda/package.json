@@ -4,7 +4,7 @@
   "description": "Lambda functions for a serverless ticketing example",
   "main": "api-get-ticket.js",
   "scripts": {
-    "test": "standard && mocha test/unit/**/*"
+    "test": "standard && mocha \"test/unit/**/*\""
   },
   "author": "Steven Alexander",
   "license": "MIT",

@@ -1,8 +1,8 @@
-const queryService = require('./services/query-service')
+module.exports.queryService = require('./services/query-service') // exposed to allow mocking in tests
 
 module.exports.handler = async () => {
   try {
-    const tickets = await queryService.getTickets()
+    const tickets = await this.queryService.getTickets()
     return {
       statusCode: 200,
       body: JSON.stringify(tickets)

@@ -20,7 +20,7 @@ describe('html', function () {
       const response = html.getHtmlRedirectResponse(redirectUrl)
 
       assert.strictEqual(response.statusCode, 303)
-      assert.strictEqual(response.headers['Location'], redirectUrl)
+      assert.strictEqual(response.headers.Location, redirectUrl)
     })
   })
 
