@@ -35,6 +35,8 @@ serverless deploy -v
 
 ## Architecture
 
+![Component diagram](https://github.com/stevenalexander/serverless-event-driven-tickets/raw/master/docs/images/serverless-tickets-components.png "Component diagram")
+
 ![Sequence diagram](https://github.com/stevenalexander/serverless-event-driven-tickets/raw/master/docs/images/websequencediagrams-event-driven-ticket-solution-with-cqrs.png "Sequence diagram")
 
 <!--- websequencediagrams.com with double dashes replaced with 00
