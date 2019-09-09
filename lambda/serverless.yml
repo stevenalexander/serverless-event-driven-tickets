@@ -28,7 +28,7 @@ functions:
           method: get
 
   WebCreateTicket:
-    handler: web-create-tickets.handler
+    handler: web-create-ticket.handler
     events:
       - http:
           path: /

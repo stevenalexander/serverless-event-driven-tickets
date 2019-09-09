@@ -94,3 +94,4 @@ EventHandler->QueryStore: Update materalised view\nfor updated Ticket
 ## TODO
 
 * [Use AWS layers to handle node_modules rather than packaging them](https://medium.com/the-apps-team/how-to-add-nodejs-library-dependencies-in-a-aws-lambda-layer-with-serverless-framework-d774cb867197)
+* Tests do not cover checking values are passed to services correctly or detailed functionality
