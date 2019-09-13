@@ -10,13 +10,20 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
+        # dynamodb crud permissions
         - dynamodb:Query
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_EVENTS}"
+        # dynamodb stream permissions
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:DescribeStream
+        - dynamodb:ListStreams
+      Resource: { Fn::GetAtt: [ EventsDynamoDbTable, Arn ] }
+
 
 functions:
   # Web functions
@@ -70,6 +77,15 @@ functions:
               paths:
                 id: true
 
+  # Event processor functions
+  EventProcessor:
+    handler: event-processor.handler
+    events:
+      - stream:
+          type: dynamodb
+          arn: { Fn::GetAtt: [ EventsDynamoDbTable, StreamArn ] }
+          batchSize: 1
+
 resources:
   Resources:
     EventsDynamoDbTable:
@@ -87,6 +103,8 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
         TableName: ${self:provider.environment.DYNAMODB_TABLE_EVENTS}
 
 plugins:

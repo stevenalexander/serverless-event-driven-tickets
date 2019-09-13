@@ -91,6 +91,7 @@ EventHandler->QueryStore: Update materalised view\nfor updated Ticket
 * [Example - aws-node-rest-api-with-dynamodb](https://github.com/serverless/examples/tree/master/aws-node-rest-api-with-dynamodb)
 * [Blog - How To Create a Serverless Node.js App with DynamoDB For The First Time](https://medium.com/statuscode/serverless-ice-cream-or-create-your-serverless-node-js-micro-service-with-a-database-17a6946251e0) - outdated serverless config but useful context
 * [Example - Serverless Framework project code for creating DynamoDB triggered lambda](https://github.com/DavidWells/serverless-workshop/tree/master/lessons-code-complete/events/dynamodb-streams) - best example config I've found, there seems to be multiple ways to do this and some didn't work for me
+* [JSON for DynamoDB stream event object for insert](https://github.com/stevenalexander/serverless-event-driven-tickets/raw/master/docs/dynamodb-stream-event-example.json) - useful for creating event processing logic
 
 ## TODO
 
