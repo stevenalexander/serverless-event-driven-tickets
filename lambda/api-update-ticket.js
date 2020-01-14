@@ -12,7 +12,7 @@ module.exports.handler = async (event) => {
       }
     }
     data.id = event.pathParameters.id
-    console.log(JSON.stringify(data))
+
     const ticket = await this.commandService.updateTicket(data)
     return {
       statusCode: 200,
