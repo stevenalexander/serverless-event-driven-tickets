@@ -97,6 +97,21 @@ EventHandler->QueryStore: Update materalised view\nfor updated Ticket
 
 ## TODO
 
+Functionality:
+
+* Add description/text/priority/status/user to ticket data
+* Create materialised view of ticket for retrieving ticket separate from events (see [single table modelling in dynamoDB](https://www.jeremydaly.com/how-to-switch-from-rdbms-to-dynamodb-in-20-easy-steps/))
+* Updating ticket to set status
+* Adding comment to ticket
+* Update event structure with versioning and proper events for create/update/addComment, with explicit event version
+* Display ticket history via events
+* Create ticket loader to generate and submit large volumes of tickets (for test data and performance testing)
+* Authentication via cognito
+* Add additional event processing functions to demo value of event driven structure
+    * sentiment analysis
+    * notifications (email/push web hooks in browser/pub-sub)
+
+Misc:
 * [Use AWS layers to handle node_modules rather than packaging them](https://medium.com/the-apps-team/how-to-add-nodejs-library-dependencies-in-a-aws-lambda-layer-with-serverless-framework-d774cb867197)
 * Tests do not cover checking values are passed to services correctly or detailed functionality
 
