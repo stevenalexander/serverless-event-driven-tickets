@@ -16,21 +16,23 @@ Components
 * NodeJS
 * AWS account and AWS CLI with access token setup in `~/.aws`
 
-## Run locally
-
-```
-# api
-cd lambda
-npm install
-serverless offline start
-```
-
 ## Deploy
 
 Lambdas
 ```
 cd lambdas
 serverless deploy -v
+```
+
+## Run locally
+
+Note: Requires DynamoDB table setup via `serverless deploy`
+
+```
+# api
+cd lambda
+npm install
+serverless offline start
 ```
 
 ## Architecture
