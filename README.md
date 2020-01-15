@@ -106,7 +106,7 @@ Functionality:
 * Update event structure with versioning and proper events for create/update/addComment, with explicit event version
 * Display ticket history via events
 * Create ticket loader to generate and submit large volumes of tickets (for test data and performance testing)
-* Authentication via cognito
+* Authentication (can be demo only, setting a cookie username for use in submitting/viewing tickets based on query parameter, investigated serverless authentication [here](https://github.com/stevenalexander/serverless-authentication))
 * Add additional event processing functions to demo value of event driven structure
     * sentiment analysis
     * notifications (email/push web hooks in browser/pub-sub)
