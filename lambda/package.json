@@ -15,7 +15,7 @@
     "standard": "^14.0.2"
   },
   "dependencies": {
-    "aws-sdk": "^2.516.0",
+    "aws-sdk": "^2.814.0",
     "uuid": "^3.3.3"
   }
 }
