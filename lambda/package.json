@@ -9,8 +9,8 @@
   "author": "Steven Alexander",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^6.2.0",
-    "serverless": "^1.50.0",
+    "mocha": "^10.2.0",
+    "serverless": "^1.83.3",
     "serverless-offline": "^5.10.1",
     "standard": "^14.0.2"
   },
